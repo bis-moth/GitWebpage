@@ -5,8 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body>
-    <h1>WELCOME HOME</h1>
-    <p>bis-moth created this webpage, thanks GitHub</p>
-</body>
+<body onload="startTime()">
+
+    <h1> Welcome to bis-moth! </h1>
+    
+    <div id="txt"></div>
+    
+    <script>
+    function startTime() {
+      const preface = "This webpage has been live for "
+      const today = new Date();
+      const followup = " seconds."
+      let u = parseInt((Date.now() / 1000)-1674116879);
+      document.getElementById('txt').innerHTML =  preface + u + followup;
+      setTimeout(startTime, 1000);
+    }
+    </script>
+    
+    <p> Wow, what a cute webpage! </p>
+    
+    </body>
 </html>
