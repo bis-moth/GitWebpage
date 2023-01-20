@@ -1,0 +1,9 @@
+Run a local server to host html
+    pushd &lt;index.html;  python3 -m http.server 9999; popd;
+
+Switch to master branch
+    git checkout master
+
+Create dev branch
+    git checkout -b dev
+
