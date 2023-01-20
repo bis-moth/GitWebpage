@@ -4,25 +4,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script type="text/javascript" src="js/lifespan.js"> </script>
 </head>
-<body onload="startTime()">
+<body>
 
     <h1> Welcome to bis-moth! </h1>
     
     <div id="txt"></div>
-    
+
     <script>
-    function startTime() {
-      const preface = "This webpage has been live for "
-      const today = new Date();
-      const followup = " seconds."
-      let u = parseInt((Date.now() / 1000)-1674116879);
-      document.getElementById('txt').innerHTML =  preface + u + followup;
-      setTimeout(startTime, 1000);
-    }
+        displayLifespan()
     </script>
     
-    <p> Wow, what a cute webpage! </p>
+    <p> Wow, what a lovely webpage! </p>
     
     </body>
 </html>
