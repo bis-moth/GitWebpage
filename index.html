@@ -1,34 +1,33 @@
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
     <title>bis-moth</title>
     <script type="text/javascript" src="js/lifespan.js"> </script>
-</head>
-<body>
+
+  </head>
+
+  <body>
 
     <h1> Welcome to bis-moth! </h1>
     
-    <p id="LifespanSection"></p>
-
-    <p id="TimeDeltaSection"></p>
-   
-    <p> Wow, what a lovely webpage bro! </p>
-
+    <p id="LifespanSection"></p> 
     <script>
-        displayLifespan()
+      displayLifespan()
     </script>
 
-    <script></script>
+    <p><br></p>
+    <p id="RedBox"></p> 
+    <p id="BlueBox"></p> 
+    <p id="GreenBox"></p> 
+    <canvas id="canvas"></canvas>
+    <script type="text/javascript" src="js/bouncingBoxes.js"></script>
+    <script>animateBoxes();</script>
 
-    <canvas id="stockGraph" width="150" height="150">
-        current stock price: $3.15 + 0.15
-      </canvas>
-      
-      <canvas id="clock" width="150" height="150">
-        <img src="images/clock.png" width="150" height="150" alt="A clock" />
-      </canvas>
+    <p><br></p>
+    <p> Wow, what a silly webpage! </p>
     
-    </body>
+  </body>
 </html>
