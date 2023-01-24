@@ -44,6 +44,6 @@ function displayLifespan() {
   const preface = "This webpage has been live for approximately "
   const followup = "."
   let u = getLifespan()
-  document.getElementById('txt').innerHTML =  preface + u + followup;
+  document.getElementById("LifespanSection").innerHTML =  preface + u + followup;
   setTimeout(displayLifespan, 1000);
 }
