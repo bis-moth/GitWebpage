@@ -19,12 +19,26 @@
     </script>
 
     <p><br></p>
-    <p id="Box0"></p> 
-    <p id="Box1"></p> 
+    <p id="debug"></p> 
 
     <canvas id="canvas"></canvas>
-    <script type="text/javascript" src="js/physicsBoxes.js"></script>
-    <script>animateBoxes();</script>
+
+    <script type="module" src="js/connect4.js"> </script>
+    <script type="module">
+      import startGame from "./js/connect4.js";
+      startGame();
+    </script>
+
+    <!--
+    
+
+    <script type="module" src="js/physicsBoxes.js"></script>
+    <script type="module">
+      import animateBoxes from "./js/physicsBoxes.js";
+      animateBoxes();
+    </script>
+    
+    -->
 
     <p><br></p>
     <p> Wow, what a chaotic webpage! </p>
