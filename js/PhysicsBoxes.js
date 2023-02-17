@@ -1,6 +1,6 @@
-import {getRandomArbitrary, getRandomBoolean, pi, pi2,pi05} from './myMathTools.js';
+import {getCombinationsWithID, getRandomArbitrary, getRandomBoolean, pi, pi2,pi05, elementWiseOp, operateOnColumns, distanceBetweenPoints} from './myMathTools.js';
 import {Shape, Box} from './shapes.js';
-import drawBox from './shapes.js';
+import {detectBoxCollision, drawBox} from './shapes.js';
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
@@ -14,10 +14,12 @@ const min_linear_velocity = 1;
 const max_angular_velocity = 0.1
 
 
-const number_of_boxes = 50;
+const number_of_boxes = 5;
 var boxes = [];
+var collisionPredictionMatrix = [];
 
 function initializeBoxes() {
+    console.log('initializeBoxes');
     var initial_boxes = []
     var i = 0;
     while (i < number_of_boxes){
@@ -25,6 +27,18 @@ function initializeBoxes() {
         i++;
     }
     return initial_boxes;
+}
+
+function updateCollisionPredictions(boxID){
+    //Negative box ID means update all boxes
+    //Otherwise, only update the matrix for the box ID specified
+
+    //Matrix stores a list of boxIDs which have a high probability of collision
+    //The index of the matrix is the boxID to perform collision detection for each boxID in the list at that given index
+    //Make sense?....   sure, whatever...
+    collisionPredictionMatrix = getCombinationsWithID(boxes);
+
+
 }
 
 function spawnBox(){
@@ -99,33 +113,69 @@ function isBoxOutOfBounds(box){
     return isOut;
 }
 
-function detectCollision(box1,box2){
-    var collision = 0;
-
-    var line1_1 = 0;
-
-}
-
-
 function drawScene() {
     ctx.canvas.width  = window.innerWidth;
     ctx.canvas.height = window.innerHeight;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    var i = 0;
+    while (i < number_of_boxes){
+        drawBox(ctx, boxes[i]);
+        i++;
+    }
 
+}
+
+function detectErroniousCollision(box1, box2){
+    var collisionValid = true;
+    var distance = (distanceBetweenPoints(box1.position, box2.position))
+    if (distance > 1.7*max_size){
+        collisionValid = false;
+    }
+
+    return collisionValid;
+}
+
+function detectCollisions() {
+    var boxPairs = getCombinationsWithID(boxes);
+
+    for (let i = 0; i < boxPairs.length; i++){
+        var boxPair = boxPairs[i];
+        if (detectBoxCollision(boxPair[1],boxPair[3])){
+            boxes[boxPair[0]].color = [255,0,0];
+            boxes[boxPair[2]].color = [255,0,0];
+
+            if (detectErroniousCollision(boxPair[1],boxPair[3])){
+                console.log('Box1: ' + boxPair[1].position + 
+                          "; Box2: " + boxPair[3].position);
+            }
+
+            
+        }
+    }
+    
+}
+
+function updateBoxPositions() {
     var i = 0;
     while (i < number_of_boxes){
         if(isBoxOutOfBounds(boxes[i])){
             boxes[i] = spawnBox();
         }
-        drawBox(ctx, boxes[i]);
         boxes[i].updateLocation();
         i++;
     }
 }
 
+function updateScene() {
+    drawScene();
+    detectCollisions();
+    updateBoxPositions();
+}
+
 export default function animateBoxes(){
     boxes = initializeBoxes();
-    drawScene();
-    setInterval(drawScene, 16);
+    collisionPredictionMatrix = updateCollisionPredictions();
+    updateScene();
+    setInterval(updateScene, 16);
 }

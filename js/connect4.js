@@ -1,5 +1,5 @@
 import {Box, Circle} from './shapes.js';
-import drawBox from './canvasTools.js';
+import drawBox from './shapes.js'
 
 const canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
@@ -31,6 +31,10 @@ class Connect4Game {
         this.drawBoard(this.board);
         this.currentPlayer = (this.currentPlayer * -1);
     }   
+
+    checkForWinner(){
+        
+    }
     
 }
 
@@ -52,6 +56,7 @@ function drawBoard(){
     drawBox(ctx, game.boardBox);
 }
 
+
 function drawChips(size, pos, color){
     for(let i = 0; i < game.history.length(); i++){
         
@@ -61,19 +66,21 @@ function drawChips(size, pos, color){
     ctx.fill();
 }
 
+
 function updateWindow(){
     ctx.canvas.width  = window.innerWidth;
     ctx.canvas.height = window.innerHeight;
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    //ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    drawBoard(game);
+    //drawBoard(game);
     //drawChips(game);
 }
 
 export default function startGame(){
 
-    updateWindow();
-    setInterval(updateWindow, 16);
+    //updateWindow();
+    //setInterval(updateWindow, 16);
     
 };
+
