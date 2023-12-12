@@ -39,7 +39,7 @@ class Box {
         this.position = next_location.pos;
         this.angle = next_location.ang;
     }
-        
+
     getCorners(){
         var width_displacement_components = [(Math.cos(this.angle)*(this.width/2)),
                                             (Math.sin(this.angle)*(this.width/2))];
@@ -87,6 +87,15 @@ class Box {
     
 };
 
+function standardizeRectanglePoints(point1, point2) {
+    const x1 = Math.min(point1[0], point2[0]);
+    const y1 = Math.min(point1[1], point2[1]);
+    const x2 = Math.max(point1[0], point2[0]);
+    const y2 = Math.max(point1[1], point2[1]);
+
+    return [x1, y1, x2, y2];
+}
+
 function getRandomArbitrary(min, max) {
     return Math.random() * (max - min) + min;
   }
@@ -95,12 +104,10 @@ function getRandomBoolean() {
     return Math.sign(getRandomArbitrary(-1,1));
 }
 
-function initializeBoxes() {
+function randomBoxes() {
     initial_boxes = []
-    i = 0;
-    while (i < number_of_boxes){
+    for (let i = 0; i < number_of_boxes; i++) {
         initial_boxes.push(spawnBox());
-        i++;
     }
     return initial_boxes;
 }
@@ -193,11 +200,38 @@ function drawBox(box){
     ctx.fill();
 }
 
+function boxesOverlap(corners1, corners2){
+    rect1 = standardizeRectanglePoints(corners1.tr, corners1.bl)
+    rect2 = standardizeRectanglePoints(corners2.tr, corners2.bl)
+
+    const [x1A, y1A, x2A, y2A] = rect1;
+    const [x1B, y1B, x2B, y2B] = rect2;
+
+    if (x2A < x1B || x2B < x1A || y2A < y1B || y2B < y1A) {
+        return false; // Rectangles do not overlap
+    } else {
+        return true; // Rectangles overlap
+    }
+}
+
+function checkForCollisions(){
+    for (let i = 0; i < boxes.length; i++) {
+        corners1 = boxes[i].getCorners();
+        for (let j = i + 1; j < boxes.length; j++) {
+            corners2 = boxes[j].getCorners()
+            if(boxesOverlap(corners1, corners2)){
+                handleCollisionPhysics(boxes[i], boxes[j])
+            }
+        }
+    }
+}
+
 function drawScene() {
     ctx.canvas.width  = window.innerWidth;
     ctx.canvas.height = window.innerHeight;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
 
     i = 0;
     while (i < number_of_boxes){
@@ -210,10 +244,17 @@ function drawScene() {
         box.updateLocation();
         i++;
     }
+
+    checkForCollisions()
 }
 
+testBox1 = new Box(color_max,color_max,color_max,max_size,min_size,[window.innerWidth*0.333, window.innerHeight/2],0,[min_linear_velocity,0],2*max_angular_velocity);
+testBox2 = new Box(color_max,color_max,color_max,min_size,max_size,[window.innerWidth*0.667, window.innerHeight/2],0,[-1*min_linear_velocity,0],0);
+testBoxes = [testBox1, testBox2]
+
 function animateBoxes(){
-    boxes = initializeBoxes();
+    boxes = randomBoxes();
+    //boxes = testBoxes;
     drawScene();
     setInterval(drawScene, 16);
 }
