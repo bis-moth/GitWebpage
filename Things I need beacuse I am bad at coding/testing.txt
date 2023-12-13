@@ -1,5 +1,5 @@
 Run a local server to host html
-    pushd &lt;index.html;  python3 -m http.server 9999; popd;
+    pushd &lt; index.html;  python3 -m http.server 9999; popd;
 
 Switch to master branch
     git checkout master

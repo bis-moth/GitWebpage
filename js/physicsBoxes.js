@@ -13,7 +13,7 @@ const max_linear_velocity = 10;
 const min_linear_velocity = 1;
 const max_angular_velocity = 0.1
 
-const number_of_boxes = 50;
+const number_of_boxes = 10;
 var boxes = [];
 
 class Box {
@@ -214,38 +214,53 @@ function boxesOverlap(corners1, corners2){
     }
 }
 
+function handleCollisionPhysics(i, j){
+    console.debug("handleCollisionPhysics")
+    removeBox(j);
+    removeBox(i);
+}
+
 function checkForCollisions(){
+    console.debug("updateBoxes");
     for (let i = 0; i < boxes.length; i++) {
         corners1 = boxes[i].getCorners();
         for (let j = i + 1; j < boxes.length; j++) {
-            corners2 = boxes[j].getCorners()
+            corners2 = boxes[j].getCorners();
             if(boxesOverlap(corners1, corners2)){
-                handleCollisionPhysics(boxes[i], boxes[j])
+                handleCollisionPhysics(i, j);
             }
         }
     }
 }
 
-function drawScene() {
+function addBox(i){
+    boxes.push(spawnBox());
+}
+
+function removeBox(i){
+    boxes.splice(i, 1);
+}
+
+function updateBoxes() {
+    console.debug("updateBoxes");
+
     ctx.canvas.width  = window.innerWidth;
     ctx.canvas.height = window.innerHeight;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    checkForCollisions();
 
     i = 0;
-    while (i < number_of_boxes){
-        box = boxes[i];
-        if(isBoxOutOfBounds(box)){
+    while (i < boxes.length){
+        if(isBoxOutOfBounds(boxes[i])){
             boxes[i] = spawnBox();
-            box = boxes[i];
         }
-        drawBox(box);
-        box.updateLocation();
+        drawBox(boxes[i]);
+        boxes[i].updateLocation();
         i++;
     }
 
-    checkForCollisions()
 }
 
 testBox1 = new Box(color_max,color_max,color_max,max_size,min_size,[window.innerWidth*0.333, window.innerHeight/2],0,[min_linear_velocity,0],2*max_angular_velocity);
@@ -255,6 +270,6 @@ testBoxes = [testBox1, testBox2]
 function animateBoxes(){
     boxes = randomBoxes();
     //boxes = testBoxes;
-    drawScene();
-    setInterval(drawScene, 16);
+    updateBoxes();
+    setInterval(updateBoxes, 16);
 }
