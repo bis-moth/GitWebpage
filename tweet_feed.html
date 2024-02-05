@@ -1,15 +1,52 @@
 <!DOCTYPE html>
-
-<!-- Used guide on https://www.geeksforgeeks.org/how-to-display-latest-tweets-from-a-twitter-account-using-html/ -->
-
 <html>
 <head>
-    <title>Tweets</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+/* Create three equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 10px;
+  height: 300px; /* Should be removed. Only for demonstration */
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+</style>
 </head>
 <body>
-    <a class="twitter-timeline" href="https://twitter.com/CENTCOM?ref_src=twsrc%5Etfw">Tweets by CENTCOM</a> 
-    
-    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
- 
+
+<h2>Three Equal Columns</h2>
+
+<div class="row">
+  <div class="column">
+    <body>
+        <a class="twitter-timeline" data-theme="dark" href="https://twitter.com/CENTCOM?ref_src=twsrc%5Etfw">Tweets by CENTCOM</a> 
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    </body>
+  </div>
+  <div class="column">
+    <body>
+      <a class="twitter-timeline" data-theme="dark" href="https://twitter.com/SCS_news?ref_src=twsrc%5Etfw">Tweets by SCS_news</a> 
+      <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    </body>
+  </div>
+  <div class="column">
+    <body>
+      <a class="twitter-timeline" data-theme="dark" href="https://twitter.com/sentdefender?ref_src=twsrc%5Etfw">Tweets by sentdefender</a> 
+      <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    </body>
+  </div>
+</div>
+
 </body>
 </html>
